@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Release-U | Your account</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css"></head><body>
+<header class="nav"><div class="bar"><a class="logo" href="index.html"><span class="mark">R</span>Release-U</a>
+<div class="navr"><span id="who" class="muted sm"></span>
+<button class="btn ghost sm" id="btn-help" type="button">Urgent help</button>
+<button class="btn ghost sm" id="btn-admin" type="button" hidden>Admin</button>
+<button class="btn ghost sm" id="btn-out" type="button" hidden>Sign out</button></div></div></header>
+<main class="page">
+<div id="help" class="banner danger" hidden><b>Need urgent help?</b> Emergency (India): <a href="tel:112">112</a>. Tele-MANAS, 24/7, toll-free: <a href="tel:14416">14416</a> or <a href="tel:18008914416">1-800-891-4416</a>.</div>
+<p id="cfg" class="msg err" hidden>Not connected yet. Add your Supabase URL and key near the bottom of app.html.</p>
+
+<section id="v-auth" hidden>
+<h1>Welcome to Release-U</h1>
+<div class="tabs"><button class="tab on" id="tab-up" type="button">Create account</button><button class="tab" id="tab-in" type="button">Log in</button></div>
+<form id="f-auth" novalidate class="card">
+<fieldset id="role-box"><legend>I want to</legend>
+<label><input type="radio" name="intent" value="user" checked> Talk to a listener</label>
+<label><input type="radio" name="intent" value="listener"> Become a listener (needs approval)</label></fieldset>
+<div><label for="email">Email</label><input id="email" type="email" autocomplete="email" required maxlength="254"></div>
+<div><label for="pw">Password (at least 8 characters)</label><input id="pw" type="password" autocomplete="new-password" minlength="8" required></div>
+<button class="btn" id="auth-btn" type="submit">Create account</button><p id="auth-msg" class="msg" role="status" aria-live="polite"></p></form>
+<p class="fine">Your email is used only to sign in and for account safety. Others see only your anonymous alias.</p></section>
+
+<section id="v-consent" hidden><h1>Before you start</h1><div class="card">
+<p>Release-U is a peer-listening and emotional-support service, not a medical or crisis service. Listeners are not a replacement for qualified professional care. If you may be in immediate danger, call India emergency number 112 or go to the nearest emergency department. For mental-health support in India, call TeleMANAS at 14416 or 1-800-891-4416 (24/7, toll-free).</p>
+<label class="chk"><input type="checkbox" id="c1"> I understand this is not medical or crisis care.</label>
+<label class="chk" style="margin-top:.6rem"><input type="checkbox" id="c2"> I agree to the Terms of Use and Privacy Notice (drafts, pending legal review).</label>
+<div class="row"><button class="btn" id="c-btn" type="button">Continue</button></div><p id="c-msg" class="msg" role="status" aria-live="polite"></p></div></section>
+
+<section id="v-user" hidden>
+<div class="banner">Release-U is a peer-listening and emotional-support service, not a medical or crisis service. If you may be in immediate danger, call 112. For mental-health support in India, call TeleMANAS 14416 or 1-800-891-4416 (24/7, toll-free).</div>
+<div class="card glow" id="demo-available"><span class="pill">1 free 5-min demo available</span><p style="margin:.7rem 0 0">No payment needed. The 5-minute limit is enforced by our server, and it never turns into a paid call on its own.</p></div>
+<div class="card" id="demo-used" hidden><span class="pill warn">Free demo finished</span><p style="margin:.7rem 0 0">Add balance to keep talking. Paid calls cost ₹5 per minute.</p></div>
+<div class="card"><div class="split"><div><div class="muted sm">Wallet balance</div><div class="big" id="bal">₹0.00</div></div><a class="btn" id="pay-link" href="#" target="_blank" rel="noopener">Add funds</a></div>
+<div class="banner" id="low" hidden style="margin:1rem 0 0">Your wallet balance is ₹50 or below. Add balance to continue paid calls at ₹5/min.</div>
+<p class="fine" id="pay-note" style="margin:.8rem 0 0">After your payment is confirmed, our team adds it to your balance.</p></div>
+<div class="card"><h3>Preferred listener gender</h3><div class="chips" id="gender-chips">
+<button class="chip" data-v="any" type="button" aria-pressed="true">Any</button><button class="chip" data-v="male" type="button" aria-pressed="false">Male</button><button class="chip" data-v="female" type="button" aria-pressed="false">Female</button></div></div>
+<button class="btn xl" id="talk-btn" type="button">Talk to someone now</button><p id="talk-msg" class="msg center" role="status" aria-live="polite"></p>
+<p class="fine center">Free 5-minute demo for new accounts · paid calls ₹5/min · calls are not recorded</p>
+<div class="card"><h3>Voice modulation</h3><p class="fine">Changes how your outgoing voice sounds. It cannot guarantee identity concealment. Audio is never saved.</p>
+<div class="chips" id="voice-chips"><button class="chip" data-v="natural" type="button" aria-pressed="true">Natural</button><button class="chip" data-v="deeper" type="button" aria-pressed="false">Slightly deeper</button><button class="chip" data-v="higher" type="button" aria-pressed="false">Slightly higher</button><button class="chip" data-v="neutral" type="button" aria-pressed="false">Neutral / privacy</button></div></div>
+<div class="card"><h3>Recent wallet activity</h3><div id="ledger"></div></div>
+<div class="card"><div class="split"><div><h3 style="margin:0">Want to be a listener?</h3><p class="fine" style="margin:.2rem 0 0">Listeners are verified and approved by our team.</p></div><button class="btn ghost sm" id="go-apply" type="button">Apply</button></div></div>
+</section>
+
+<section id="v-apply" hidden><h1>Apply as a listener</h1><p class="muted">Our team reviews every application. You cannot take calls until you are approved.</p>
+<form id="f-apply" novalidate class="card">
+<div><label for="a-lang">Languages (comma separated)</label><input id="a-lang" type="text" placeholder="Tamil, English" maxlength="120"></div>
+<div><label for="a-bio">Short introduction (up to 500 characters)</label><textarea id="a-bio" rows="4" maxlength="500"></textarea></div>
+<div><label for="a-gender">Gender (optional, shown only if you choose)</label><select id="a-gender"><option value="">Prefer not to say</option><option>Female</option><option>Male</option><option>Another category</option></select></div>
+<div><label for="a-file">Government ID (JPG, PNG or PDF, up to 5 MB)</label><input id="a-file" type="file" accept=".jpg,.jpeg,.png,.pdf,image/jpeg,image/png,application/pdf"></div>
+<label class="chk"><input type="checkbox" id="a-terms"> I confirm my details are true and I agree to the Listener Terms (draft). I will not claim to be a therapist or give medical advice.</label>
+<button class="btn" id="a-btn" type="submit">Submit for approval</button><p id="a-msg" class="msg" role="status" aria-live="polite"></p></form></section>
+
+<section id="v-status" hidden><h1>Your listener application</h1><div class="card"><span class="pill warn" id="s-pill"></span><p id="s-text" style="margin-top:.8rem"></p></div></section>
+
+<section id="v-listener" hidden>
+<div class="split"><h1 style="margin:0">Listener portal</h1><span class="pill">Approved</span></div>
+<div class="card" style="margin-top:1rem"><div class="split"><div><b id="online-state">Offline</b><div class="fine">Stay on this page while you are online to receive calls.</div></div><button class="btn" id="online-btn" type="button">Go online</button></div></div>
+<div class="card glow" id="incoming" hidden><b>Incoming call</b><p class="fine" style="margin:.3rem 0 .6rem">Someone would like to talk. Please accept within 30 seconds.</p><div class="row"><button class="btn" id="inc-accept" type="button">Accept</button><button class="btn ghost" id="inc-decline" type="button">Decline</button></div></div>
+<div class="card"><div class="muted sm">Earnings ledger</div><div class="big" id="earn">₹0.00</div>
+<div class="kv"><span>Your rate</span><b>₹2.00 / minute</b></div><div class="kv"><span>Payout minimum</span><b>₹100.00</b></div>
+<form id="f-payout" style="margin-top:1rem"><div><label for="p-amt">Request UPI payout (₹)</label><input id="p-amt" type="number" min="100" step="1" value="100"></div>
+<div><label for="p-upi">UPI ID</label><input id="p-upi" type="text" placeholder="name@bank" maxlength="100" autocomplete="off"></div>
+<button class="btn" type="submit">Withdraw</button><p id="p-msg" class="msg" role="status" aria-live="polite"></p></form></div>
+<div class="card"><h3>Profile and credentials</h3><div class="kv"><span>Gender (voluntary)</span><b id="lp-gender">Not shared</b></div><div class="kv"><span>Languages</span><b id="lp-lang"></b></div><div class="kv" style="display:block"><div class="muted sm">Introduction</div><p id="lp-bio" style="margin:.3rem 0 0"></p></div></div>
+<div class="card"><h3>Payout history</h3><div id="p-list"></div></div></section>
+
+<section id="v-call" hidden><h1>Voice call</h1><div class="card glow center"><p id="call-state" class="msg" style="font-size:1.1rem"></p><div class="big" id="call-time" style="margin:.6rem 0 1rem"></div><button class="btn" id="call-end" type="button">End call</button></div><p class="fine center">Not a medical or crisis service. If you may be in danger, call 112 or Tele-MANAS 14416. Calls are not recorded by Release-U.</p></section>
+<section id="v-admin" hidden><h1>Admin console</h1><h2>Dashboard</h2><div id="stats" class="stats"></div><div class="card" style="margin-top:1rem"><h3>New sign-ups, last 7 days</h3><div id="bars" class="bars"></div></div><div class="card"><h3>Recent admin activity</h3><div id="audit"></div></div>
+<h2>Listener approvals</h2><p class="fine">Opening an ID is recorded in the audit log. Every decision needs a written reason.</p><div id="admin-list"></div>
+<h2>Payout requests</h2><div id="payout-list"></div>
+<h2>Credit a wallet</h2><form id="f-credit" class="card"><p class="fine">Use only after confirming the payment in your Razorpay dashboard. The same payment ID cannot be credited twice.</p>
+<div><label for="k-alias">User alias</label><input id="k-alias" type="text" placeholder="user_ab12cd34"></div>
+<div><label for="k-amt">Amount paid (₹)</label><input id="k-amt" type="number" min="1" step="1"></div>
+<div><label for="k-ref">Razorpay payment ID</label><input id="k-ref" type="text" placeholder="pay_..."></div>
+<div><label for="k-why">Reason</label><input id="k-why" type="text" value="Razorpay payment confirmed"></div>
+<button class="btn" type="submit">Credit wallet</button><p id="k-msg" class="msg" role="status" aria-live="polite"></p></form></section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/agora-rtc-sdk-ng@4.20.2/AgoraRTC_N-production.js"></script>
+<script>
+/* PASTE YOUR VALUES. The URL and anon key are safe to expose. NEVER paste a service_role key here. */
+const SUPABASE_URL = 'https://sdkaflinieilyfutdujx.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_rwdTZf_CS1J1cH1ek8LNhQ_NsacAkJ0';
+const PAYMENT_LINK_URL = 'https://rzp.io/rzp/Elud8vXC';
+const DOC_VERSION = 'draft-2026-10';
+
+const $ = id => document.getElementById(id);
+const VIEWS = ['v-auth','v-consent','v-user','v-apply','v-status','v-listener','v-admin','v-call'];
+const show = id => { VIEWS.forEach(v => $(v).hidden = v !== id); document.querySelector('main').classList.toggle('wide', id === 'v-admin'); window.scrollTo(0, 0); };
+const say = (id, t, c) => { const m = $(id); m.textContent = t || ''; m.className = 'msg' + (c ? ' ' + c : ''); };
+const rs = p => '₹' + (Number(p) / 100).toFixed(2);
+function el(tag, a, ...kids) { const e = document.createElement(tag);
+  for (const k in (a || {})) { if (k === 'text') e.textContent = a[k]; else if (k === 'class') e.className = a[k];
+    else if (k.slice(0, 2) === 'on') e.addEventListener(k.slice(2), a[k]); else e.setAttribute(k, a[k]); }
+  kids.forEach(c => e.append(c)); return e; }
+const kv = (l, r) => el('div', { class: 'kv' }, el('span', { text: l }), el('b', { text: r }));
+const configured = SUPABASE_URL.indexOf('PASTE_') !== 0;
+let sb = null, mode = 'up', adminMode = false, wantsApply = false, uid = null;
+const params = new URLSearchParams(location.search);
+const TYPES = { topup: 'Top-up', call_debit: 'Call', call_earning: 'Call earning', payout_hold: 'Payout requested', payout_release: 'Payout returned', adjustment: 'Adjustment' };
+
+function setMode(m) { mode = m; $('tab-up').classList.toggle('on', m === 'up'); $('tab-in').classList.toggle('on', m === 'in');
+  $('role-box').hidden = m !== 'up'; $('auth-btn').textContent = m === 'up' ? 'Create account' : 'Log in';
+  $('pw').autocomplete = m === 'up' ? 'new-password' : 'current-password'; say('auth-msg', ''); }
+$('tab-up').onclick = () => setMode('up'); $('tab-in').onclick = () => setMode('in');
+$('btn-help').onclick = () => { $('help').hidden = !$('help').hidden; };
+
+function pick(boxId, value) { document.querySelectorAll('#' + boxId + ' .chip').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === value))); }
+
+async function route() {
+  const { data: { session } } = await sb.auth.getSession();
+  stopPoll();
+  $('btn-out').hidden = !session; $('btn-admin').hidden = true; $('who').textContent = '';
+  if (!session) { show('v-auth'); return; }
+  uid = session.user.id;
+  const { data: profile } = await sb.from('profiles').select('public_alias,account_role,status,preferred_listener_gender,listener_online').eq('id', uid).maybeSingle();
+  if (!profile) { show('v-auth'); say('auth-msg', 'Could not load your account. Please log in again.', 'err'); return; }
+  if (profile.status !== 'active') { await sb.auth.signOut(); show('v-auth'); say('auth-msg', 'This account is not active. Please contact support.', 'err'); return; }
+  $('who').textContent = profile.public_alias;
+  const { data: cons } = await sb.from('consents').select('consent_type').eq('document_version', DOC_VERSION);
+  const have = new Set((cons || []).map(c => c.consent_type));
+  if (!['disclaimer', 'privacy', 'user_terms'].every(t => have.has(t))) { show('v-consent'); return; }
+  const { data: isAdmin } = await sb.rpc('is_admin');
+  $('btn-admin').hidden = !isAdmin; $('btn-admin').textContent = adminMode ? 'My account' : 'Admin';
+  if (isAdmin && adminMode) { loadAdmin(); return; }
+  const { data: app } = await sb.from('listener_applications').select('status,decision_reason,languages,bio,gender_category').eq('user_id', uid).maybeSingle();
+  if (profile.account_role === 'listener') { await loadListener(profile, app); show('v-listener'); return; }
+  if (app) { renderStatus(app); show('v-status'); return; }
+  if (wantsApply || (session.user.user_metadata || {}).signup_intent === 'listener') { show('v-apply'); return; }
+  await loadUser(profile); show('v-user');
+}
+
+async function loadUser(profile) {
+  const [demo, bal, led, voice] = await Promise.all([
+    sb.from('demo_entitlements').select('status').eq('user_id', uid).maybeSingle(),
+    sb.rpc('my_balance', { p_account: 'wallet' }),
+    sb.from('wallet_ledger').select('amount_paise,entry_type,created_at').eq('account', 'wallet').order('created_at', { ascending: false }).limit(5),
+    sb.from('voice_preferences').select('effect_preset').eq('user_id', uid).maybeSingle()]);
+  const used = demo.data && demo.data.status === 'used';
+  $('demo-available').hidden = used; $('demo-used').hidden = !used;
+  const b = Number(bal.data || 0); $('bal').textContent = rs(b); $('low').hidden = b > 5000;
+  const pay = $('pay-link');
+  if (PAYMENT_LINK_URL.indexOf('PASTE_') === 0) { pay.hidden = true; say('pay-note', 'The payment link is not set up yet.'); } else pay.href = PAYMENT_LINK_URL;
+  pick('gender-chips', profile.preferred_listener_gender || 'any');
+  pick('voice-chips', (voice.data && voice.data.effect_preset) || 'natural');
+  const box = $('ledger'); box.replaceChildren();
+  if (!led.data || !led.data.length) box.append(el('p', { class: 'fine', text: 'No activity yet.' }));
+  (led.data || []).forEach(r => box.append(kv((TYPES[r.entry_type] || r.entry_type) + ' · ' + new Date(r.created_at).toLocaleDateString(), (r.amount_paise > 0 ? '+' : '') + rs(r.amount_paise))));
+}
+
+document.querySelectorAll('#gender-chips .chip').forEach(b => b.onclick = async () => {
+  const { error } = await sb.from('profiles').update({ preferred_listener_gender: b.dataset.v }).eq('id', uid);
+  if (!error) pick('gender-chips', b.dataset.v); });
+document.querySelectorAll('#voice-chips .chip').forEach(b => b.onclick = async () => {
+  const { error } = await sb.from('voice_preferences').upsert({ user_id: uid, effect_preset: b.dataset.v, updated_at: new Date().toISOString() });
+  if (!error) pick('voice-chips', b.dataset.v); });
+
+async function loadListener(profile, app) {
+  const [earn, pays] = await Promise.all([sb.rpc('my_balance', { p_account: 'earnings' }),
+    sb.from('payout_requests').select('amount_paise,status,requested_at,provider_reference,decision_reason').eq('listener_id', uid).order('requested_at', { ascending: false }).limit(5)]);
+  $('earn').textContent = rs(earn.data || 0);
+  setOnline(profile.listener_online);
+  $('lp-gender').textContent = (app && app.gender_category) || 'Not shared';
+  $('lp-lang').textContent = app ? (app.languages || []).join(', ') : '';
+  $('lp-bio').textContent = (app && app.bio) || '';
+  const box = $('p-list'); box.replaceChildren();
+  if (!pays.data || !pays.data.length) box.append(el('p', { class: 'fine', text: 'No payout requests yet.' }));
+  (pays.data || []).forEach(p => box.append(kv(new Date(p.requested_at).toLocaleDateString() + ' · ' + p.status, rs(p.amount_paise))));
+}
+function setOnline(on) { $('online-state').textContent = on ? 'Online and receiving calls' : 'Offline'; $('online-btn').textContent = on ? 'Go offline' : 'Go online'; $('online-btn').dataset.on = on ? '1' : '0'; if (on) startPoll(); else stopPoll(); }
+$('online-btn').onclick = async () => { const want = $('online-btn').dataset.on !== '1';
+  const { error } = await sb.rpc('set_listener_online', { p_online: want }); if (!error) setOnline(want); };
+$('f-payout').addEventListener('submit', async e => { e.preventDefault(); say('p-msg', '');
+  const paise = Math.round(Number($('p-amt').value) * 100), upi = $('p-upi').value.trim();
+  if (!(paise >= 10000)) { say('p-msg', 'The minimum payout is ₹100.', 'err'); return; }
+  if (upi.length < 5 || upi.indexOf('@') < 1) { say('p-msg', 'Enter a valid UPI ID.', 'err'); return; }
+  const { error } = await sb.rpc('request_payout', { p_amount_paise: paise, p_upi: upi });
+  if (error) { say('p-msg', error.message, 'err'); return; }
+  say('p-msg', 'Payout requested. We will pay it to your UPI ID after review.', 'ok'); route(); });
+
+function renderStatus(app) {
+  const L = { pending: 'Waiting for review', more_info: 'More information needed', rejected: 'Not approved', approved: 'Approved' };
+  $('s-pill').textContent = L[app.status] || app.status;
+  $('s-text').textContent = ({ pending: 'Your application and ID are with our team. We will review them and update this page.',
+    more_info: 'We need more information: ' + (app.decision_reason || '') + ' Please contact support with the details.',
+    rejected: 'Your application was not approved. Reason: ' + (app.decision_reason || 'not given') + '.' })[app.status] || ''; }
+
+$('f-auth').addEventListener('submit', async e => { e.preventDefault(); say('auth-msg', '');
+  const email = $('email').value.trim().toLowerCase(), password = $('pw').value;
+  if (!email || !$('email').checkValidity()) { say('auth-msg', 'Please enter a valid email.', 'err'); return; }
+  if (password.length < 8) { say('auth-msg', 'Password must be at least 8 characters.', 'err'); return; }
+  $('auth-btn').disabled = true;
+  try { if (mode === 'up') {
+      const intent = document.querySelector('input[name=intent]:checked').value;
+      const { data, error } = await sb.auth.signUp({ email, password, options: { data: { signup_intent: intent } } });
+      if (error) say('auth-msg', error.message, 'err'); else if (data.session) route();
+      else say('auth-msg', 'Check your email to confirm your account, then log in.', 'ok');
+    } else { const { error } = await sb.auth.signInWithPassword({ email, password });
+      if (error) say('auth-msg', 'Email or password is not correct.', 'err'); }
+  } finally { $('auth-btn').disabled = false; } });
+
+$('c-btn').onclick = async () => {
+  if (!$('c1').checked || !$('c2').checked) { say('c-msg', 'Please tick both boxes to continue.', 'err'); return; }
+  const rows = ['disclaimer', 'privacy', 'user_terms'].map(t => ({ user_id: uid, consent_type: t, document_version: DOC_VERSION, locale: 'en' }));
+  const { error } = await sb.from('consents').insert(rows);
+  if (error) { say('c-msg', 'Could not save. Please try again.', 'err'); return; } route(); };
+$('go-apply').onclick = () => { wantsApply = true; route(); };
+
+$('f-apply').addEventListener('submit', async e => { e.preventDefault(); say('a-msg', '');
+  const langs = $('a-lang').value.split(',').map(s => s.trim()).filter(Boolean).slice(0, 8);
+  const file = $('a-file').files[0], ext = file ? ({ 'image/jpeg': 'jpg', 'image/png': 'png', 'application/pdf': 'pdf' })[file.type] : null;
+  if (!langs.length) { say('a-msg', 'Please add at least one language.', 'err'); return; }
+  if (!file || !ext) { say('a-msg', 'Please attach your ID as a JPG, PNG or PDF.', 'err'); return; }
+  if (file.size > 5 * 1024 * 1024) { say('a-msg', 'The file is larger than 5 MB.', 'err'); return; }
+  if (!$('a-terms').checked) { say('a-msg', 'Please tick the confirmation box.', 'err'); return; }
+  $('a-btn').disabled = true; say('a-msg', 'Submitting…');
+  try { const key = uid + '/id-' + Date.now() + '.' + ext;
+    const up = await sb.storage.from('kyc').upload(key, file, { contentType: file.type }); if (up.error) throw up.error;
+    const ins = await sb.from('listener_applications').insert({ user_id: uid, languages: langs, bio: $('a-bio').value.trim().slice(0, 500), gender_category: $('a-gender').value || null, kyc_object_key: key });
+    if (ins.error) throw ins.error;
+    await sb.from('consents').insert({ user_id: uid, consent_type: 'listener_terms', document_version: DOC_VERSION, locale: 'en' });
+    route();
+  } catch (err) { say('a-msg', 'Could not submit. If you already applied, log in again to see your status.', 'err'); }
+  finally { $('a-btn').disabled = false; } });
+
+
+function renderDash(s, audit) {
+  const cards = [['Users', s.users], ['Approved listeners', s.listeners], ['Online now', s.online_listeners], ['Pending approvals', s.pending_applications],
+    ['Free demos used', s.demos_used], ['Top-ups received', rs(s.topups_paise)], ['Payout queue', s.pending_payouts + ' · ' + rs(s.pending_payout_paise)],
+    ['Calls', 'Not yet'], ['Payment failures', 'Not yet'], ['Refunds', 'Not yet']];
+  const st = $('stats'); st.replaceChildren();
+  cards.forEach(c => st.append(el('div', { class: 'stat' }, el('div', { class: 'muted sm', text: c[0] }), el('div', { class: 'num' + (c[1] === 'Not yet' ? ' dim' : ''), text: String(c[1]) }))));
+  const bars = $('bars'); bars.replaceChildren(); const max = Math.max(1, ...s.signups_7d);
+  s.signups_7d.forEach((n, i) => { const d = new Date(); d.setDate(d.getDate() - (6 - i));
+    bars.append(el('div', { class: 'col' }, el('span', { class: 'v', text: String(n) }), el('i', { style: 'height:' + (Math.round(n / max * 90) + 4) + 'px' }), el('span', { class: 'd', text: d.toLocaleDateString('en-IN', { weekday: 'short' }) }))); });
+  const au = $('audit'); au.replaceChildren();
+  if (!audit.length) au.append(el('p', { class: 'fine', text: 'No activity yet.' }));
+  audit.forEach(a => au.append(kv(a.action.replace(/_/g, ' '), new Date(a.created_at).toLocaleString())));
+}
+
+async function aliasMap(ids) { if (!ids.length) return {};
+  const { data } = await sb.from('profiles').select('id,public_alias').in('id', ids);
+  return Object.fromEntries((data || []).map(p => [p.id, p.public_alias])); }
+
+async function loadAdmin() {
+  show('v-admin');
+  const box = $('admin-list'), pbox = $('payout-list');
+  box.replaceChildren(el('p', { text: 'Loading…' })); pbox.replaceChildren();
+  const [st, au] = await Promise.all([sb.rpc('admin_stats'), sb.from('audit_logs').select('action,created_at').order('created_at', { ascending: false }).limit(8)]);
+  if (!st.error && st.data) renderDash(st.data, au.data || []);
+  const [apps, pays] = await Promise.all([
+    sb.from('listener_applications').select('id,user_id,languages,bio,gender_category,kyc_object_key,status,created_at').in('status', ['pending', 'more_info']).order('created_at'),
+    sb.from('payout_requests').select('id,listener_id,amount_paise,upi_id,requested_at').eq('status', 'requested').order('requested_at')]);
+  const al = await aliasMap([...(apps.data || []).map(a => a.user_id), ...(pays.data || []).map(p => p.listener_id)]);
+  box.replaceChildren(); if (apps.error) box.append(el('p', { class: 'msg err', text: 'Could not load applications.' }));
+  else if (!apps.data.length) box.append(el('p', { class: 'fine', text: 'No applications are waiting.' }));
+  (apps.data || []).forEach(a => box.append(appCard(a, al[a.user_id] || 'unknown')));
+  if (!(pays.data || []).length) pbox.append(el('p', { class: 'fine', text: 'No payout requests are waiting.' }));
+  (pays.data || []).forEach(p => pbox.append(el('div', { class: 'card' }, el('h3', { text: (al[p.listener_id] || 'unknown') + ' · ' + rs(p.amount_paise) }),
+    el('p', { class: 'fine', text: 'UPI: ' + p.upi_id + ' · requested ' + new Date(p.requested_at).toLocaleString() }),
+    el('div', { class: 'row' }, el('button', { class: 'btn sm', type: 'button', text: 'Mark paid', onclick: () => payout(p, 'paid') }),
+      el('button', { class: 'btn ghost sm', type: 'button', text: 'Reject', onclick: () => payout(p, 'rejected') })))));
+}
+function appCard(a, name) { const slot = el('p', { class: 'fine' });
+  return el('div', { class: 'card' }, el('h3', { text: name }), el('span', { class: 'pill warn', text: a.status === 'pending' ? 'Pending' : 'More info requested' }),
+    el('p', { text: 'Languages: ' + (a.languages || []).join(', '), style: 'margin-top:.8rem' }),
+    el('p', { text: 'Gender (voluntary): ' + (a.gender_category || 'not shared') }), el('p', { text: 'Introduction: ' + (a.bio || '(none)') }),
+    el('p', { class: 'fine', text: 'Applied: ' + new Date(a.created_at).toLocaleString() }),
+    el('div', { class: 'row' }, el('button', { class: 'btn ghost sm', type: 'button', text: 'View ID', onclick: () => viewId(a, slot) }),
+      el('button', { class: 'btn sm', type: 'button', text: 'Approve', onclick: () => decide(a, 'approved') }),
+      el('button', { class: 'btn ghost sm', type: 'button', text: 'Request info', onclick: () => decide(a, 'more_info') }),
+      el('button', { class: 'btn ghost sm', type: 'button', text: 'Reject', onclick: () => decide(a, 'rejected') })), slot); }
+async function viewId(a, slot) {
+  if (!a.kyc_object_key) { slot.textContent = 'No document uploaded.'; return; }
+  const log = await sb.rpc('log_kyc_access', { p_application_id: a.id });
+  if (log.error) { slot.textContent = 'Could not record access, so the document was not opened.'; return; }
+  const { data, error } = await sb.storage.from('kyc').createSignedUrl(a.kyc_object_key, 60);
+  if (error) { slot.textContent = 'Could not open the document.'; return; }
+  slot.replaceChildren(el('a', { href: data.signedUrl, target: '_blank', rel: 'noopener', text: 'Open document (link expires in 60 seconds)' })); }
+async function decide(a, d) { const why = window.prompt('Reason for this decision (required, saved in the audit log):'); if (!why || !why.trim()) return;
+  const { error } = await sb.rpc('decide_listener', { p_application_id: a.id, p_decision: d, p_reason: why.trim() });
+  if (error) { alert('Could not save: ' + error.message); return; } loadAdmin(); }
+async function payout(p, d) { const note = window.prompt(d === 'paid' ? 'UPI transaction reference (required):' : 'Reason for rejecting (required):'); if (!note || !note.trim()) return;
+  const { error } = await sb.rpc('decide_payout', { p_id: p.id, p_decision: d, p_note: note.trim() });
+  if (error) { alert('Could not save: ' + error.message); return; } loadAdmin(); }
+$('f-credit').addEventListener('submit', async e => { e.preventDefault(); say('k-msg', '');
+  const paise = Math.round(Number($('k-amt').value) * 100);
+  const { error } = await sb.rpc('admin_credit_wallet', { p_alias: $('k-alias').value.trim(), p_amount_paise: paise, p_payment_ref: $('k-ref').value.trim(), p_reason: $('k-why').value.trim() });
+  if (error) { say('k-msg', error.code === '23505' ? 'That payment ID was already credited.' : error.message, 'err'); return; }
+  say('k-msg', 'Wallet credited.', 'ok'); $('f-credit').reset(); $('k-why').value = 'Razorpay payment confirmed'; });
+
+
+/* ---------- voice calls ---------- */
+let rtc = null, mic = null, curCall = null, ticker = null, ringT = null, pollT = null, ending = false;
+const CALL_ERR = { no_listener_available: 'No listener is available right now. Please try again in a moment.', insufficient_balance: 'Please add at least ₹5 to your wallet to start a paid call.', call_in_progress: 'You already have a call in progress.' };
+const callErr = e => { const m = (e && e.message) || ''; for (const k in CALL_ERR) if (m.indexOf(k) >= 0) return CALL_ERR[k]; return 'Could not start the call. Please try again.'; };
+const mmss = n => String(Math.floor(n / 60)).padStart(2, '0') + ':' + String(n % 60).padStart(2, '0');
+
+$('talk-btn').onclick = async () => {
+  say('talk-msg', ''); $('talk-btn').disabled = true;
+  const chip = document.querySelector('#gender-chips .chip[aria-pressed=true]');
+  const { data, error } = await sb.rpc('request_call', { p_gender: chip ? chip.dataset.v : 'any' });
+  $('talk-btn').disabled = false;
+  if (error) { say('talk-msg', callErr(error), 'err'); return; }
+  curCall = data; ending = false; $('call-time').textContent = ''; say('call-state', 'Ringing… waiting for a listener to accept'); show('v-call');
+  const t0 = Date.now();
+  ringT = setInterval(async () => {
+    const { data: c } = await sb.from('call_sessions').select('status').eq('id', curCall).maybeSingle();
+    if (c && c.status === 'active') { clearInterval(ringT); startCall(curCall); }
+    else if ((c && ['declined', 'missed', 'ended'].indexOf(c.status) >= 0) || Date.now() - t0 > 40000) {
+      clearInterval(ringT); endCall('no_answer', 'The listener could not take the call. Please try again.'); }
+  }, 2000);
+};
+
+async function startCall(callId) {
+  show('v-call'); say('call-state', 'Connecting…');
+  try {
+    const { data, error } = await sb.functions.invoke('agora-token', { body: { callId } });
+    if (error || !data || data.error) throw new Error('token');
+    rtc = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp8' });
+    rtc.on('user-published', async (user, type) => { await rtc.subscribe(user, type); if (type === 'audio') user.audioTrack.play(); });
+    rtc.on('user-left', () => endCall('peer_left', 'The other person left the call.'));
+    rtc.on('token-privilege-did-expire', () => endCall('time_limit'));
+    await rtc.join(data.appId, data.channel, data.token, data.uid);
+    mic = await AgoraRTC.createMicrophoneAudioTrack();
+    await rtc.publish([mic]);
+    say('call-state', 'Connected. You can talk now.');
+    const deadline = Date.now() + data.remaining * 1000;
+    ticker = setInterval(() => { const left = Math.max(0, Math.round((deadline - Date.now()) / 1000));
+      $('call-time').textContent = mmss(left) + ' left'; if (left <= 0) endCall('time_limit', 'Your time is up.'); }, 500);
+  } catch (e) { endCall('connect_error', 'Could not connect the call. Please allow microphone access and try again.'); }
+}
+
+async function endCall(reason, msg) {
+  if (ending) return; ending = true; clearInterval(ringT); clearInterval(ticker);
+  try { if (mic) { mic.stop(); mic.close(); } if (rtc) await rtc.leave(); } catch (e) {}
+  mic = null; rtc = null;
+  if (curCall) { await sb.rpc('end_call', { p_call_id: curCall, p_reason: reason }); curCall = null; }
+  await route(); if (msg) say('talk-msg', msg);
+}
+$('call-end').onclick = () => endCall('ended_by_user');
+
+function startPoll() { stopPoll(); pollT = setInterval(pollIncoming, 3000); }
+function stopPoll() { if (pollT) clearInterval(pollT); pollT = null; }
+async function pollIncoming() {
+  if ($('v-listener').hidden || curCall) return;
+  const { data } = await sb.from('call_sessions').select('id').eq('listener_id', uid).eq('status', 'ringing')
+    .gte('created_at', new Date(Date.now() - 40000).toISOString()).order('created_at', { ascending: false }).limit(1);
+  const c = data && data[0]; $('incoming').hidden = !c; $('incoming').dataset.id = c ? c.id : '';
+}
+$('inc-accept').onclick = async () => {
+  const id = $('incoming').dataset.id; if (!id) return;
+  const { data, error } = await sb.rpc('respond_call', { p_call_id: id, p_accept: true });
+  $('incoming').hidden = true; if (error || data !== 'accepted') return;
+  curCall = id; ending = false; stopPoll(); startCall(id); };
+$('inc-decline').onclick = async () => {
+  const id = $('incoming').dataset.id; $('incoming').hidden = true;
+  if (id) await sb.rpc('respond_call', { p_call_id: id, p_accept: false }); };
+
+$('btn-admin').onclick = () => { adminMode = !adminMode; route(); };
+$('btn-out').onclick = async () => { adminMode = false; wantsApply = false; await sb.auth.signOut(); };
+if (!configured) { $('cfg').hidden = false; show('v-auth'); }
+else { sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const m = params.get('mode'); if (m === 'login') setMode('in');
+  if (m === 'listener') document.querySelector('input[name=intent][value=listener]').checked = true;
+  sb.auth.onAuthStateChange(ev => { if (ev === 'SIGNED_IN' || ev === 'SIGNED_OUT') setTimeout(route, 0); });
+  route(); }
+</script></body></html>
